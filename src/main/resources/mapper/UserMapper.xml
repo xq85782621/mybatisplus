@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.meizhi.mapper.UserMapper">
+
+    <select id="selectUserList"  resultType="com.meizhi.entity.response.UserVo">
+        SELECT u.id userId , u.name, u.birthday, u.sex, a.address , a.zip_code
+        FROM `user` u LEFT JOIN `address` a
+        ON u.address_id = a.id
+        <where>
+            <if test="params.name != null">
+                name like  CONCAT('%',#{params.name},'%' )
+            </if>
+            <if test="params.sex != null and params.name != ''">
+                sex = #{params.sex}
+            </if>
+            <if test="params.startTime != null and params.endTime != null">
+                birthday BETWEEN #{params.startTime} AND #{params.endTime}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>
