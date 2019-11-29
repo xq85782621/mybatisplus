@@ -1,11 +1,14 @@
 package com.meizhi.filter;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@WebFilter(filterName="myXssFilter", urlPatterns="/*")
+
+/**
+ * 防xss攻击
+ */
+//@WebFilter(filterName="myXssFilter", urlPatterns="/*")
 public class MyXssFilter implements Filter {
 
     FilterConfig filterConfig = null;

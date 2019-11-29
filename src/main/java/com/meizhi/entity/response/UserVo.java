@@ -10,17 +10,46 @@ import java.util.Date;
 @Setter
 public class UserVo {
 
+    // 用户ID
     private Integer userId;
 
-    private String name;
+    // 用户名
+    private String username;
 
+    // 部门名称
+    private String deptName;
+
+    // 邮箱
+    private String email;
+
+    // 联系电话
+    private String mobile;
+
+    // 性别 1男 2女 0保密
     private Integer sex;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date birthday;
+    // 状态 0锁定 1有效
+    private Integer status;
 
-    private String address;
+    // 创建时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createTime;
 
-    private String zipCode;
+    // 修改时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date modifyTime;
+
+    // 最后登录时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date lastLoginTime;
+
+    // 描述
+    private String description;
+
+    // 头像
+    private String avatar;
+
+    // 角色名称
+    private String roleName;
 
 }

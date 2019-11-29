@@ -1,23 +1,14 @@
-package com.meizhi.model;
+package com.meizhi.entity.response;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.util.Date;
 
-
-@TableName("t_user")
 @Getter
 @Setter
-@ToString
-public class User {
-
+public class UserDetail {
     // 用户ID
-    @TableId(value = "user_id", type = IdType.AUTO)
     private Integer userId;
 
     // 用户名
@@ -28,6 +19,9 @@ public class User {
 
     // 部门ID
     private Integer deptId;
+
+    // 角色id
+    private Integer roleId;
 
     // 邮箱
     private String email;
@@ -56,7 +50,5 @@ public class User {
     // 头像
     private String avatar;
 
-
-    private static  final  String DEPT_ID = "dept_id";
 
 }

@@ -8,17 +8,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 
-/**
- * 自定义日期格式校验
- */
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = SexValidator.class)
-public @interface SexValidation {
+@Constraint(validatedBy = StrRangeValidator.class)
+public @interface StrRangeValidation {
 
-    String message() default "性别类型错误";
+    String message() default "类型错误";
 
-    String range();
+    String ranges();
 
     Class<?>[] groups() default {};
 

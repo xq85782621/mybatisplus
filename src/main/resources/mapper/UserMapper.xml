@@ -3,21 +3,66 @@
 
 <mapper namespace="com.meizhi.mapper.UserMapper">
 
-    <select id="selectUserList"  resultType="com.meizhi.entity.response.UserVo">
-        SELECT u.id userId , u.name, u.birthday, u.sex, a.address , a.zip_code
-        FROM `user` u LEFT JOIN `address` a
-        ON u.address_id = a.id
+    <!-- 分页查询用户列表 -->
+    <select id="userList" resultType="com.meizhi.entity.response.UserVo">
+        SELECT
+        u.user_id,
+        u.username ,
+        u.dept_id ,
+        u.email ,
+        u.mobile ,
+        u.status,
+        u.create_time ,
+        u.modify_time,
+        u.last_login_time ,
+        u.sex ,
+        u.description ,
+        u.avatar ,
+        d.dept_name,
+        r.role_name
+        FROM t_user u
+        LEFT JOIN t_dept d
+        ON u.dept_id = d.dept_id
+        LEFT JOIN t_user_role  ur
+        ON u.user_id = ur.user_id
+        LEFT JOIN t_role r
+        ON ur.role_id = r.role_id
         <where>
-            <if test="params.name != null">
-                name like  CONCAT('%',#{params.name},'%' )
+            <if test="params.username != null and params.username != ''">
+               and u.username like CONCAT('%',#{params.username},'%' )
             </if>
-            <if test="params.sex != null and params.name != ''">
-                sex = #{params.sex}
+            <if test="params.mobile != null and params.mobile != ''">
+                and u.mobile like CONCAT('%',#{params.mobile},'%' )
             </if>
-            <if test="params.startTime != null and params.endTime != null">
-                birthday BETWEEN #{params.startTime} AND #{params.endTime}
+            <!-- 参数类型为int的时候 0 相当于''-->
+            <if test="params.sex != null ">
+                and  u.sex = #{params.sex}
+            </if>
+            <if test="params.status != null ">
+                and  u.status = #{params.status}
+            </if>
+            <if test="params.sortType != null and params.sortType != ''">
+                <if test="params.startTime != null and params.startTime != ''">
+                    <if test="params.endTime != null and params.endTime != ''">
+                        and  u.${params.sortType} between #{params.startTime} and #{params.endTime}
+                    </if>
+                </if>
+            </if>
+            <if test="params.deptId != null and params.deptId != ''">
+                and  u.dept_id in
+                <foreach collection="params.deptIdList" item="id" index="index" open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
             </if>
         </where>
+        <choose>
+            <when test="params.sortType != null and params.sortType != ''">
+                order by u.${params.sortType} desc
+            </when>
+            <otherwise>
+                order by u.create_time desc
+            </otherwise>
+        </choose>
     </select>
 
 

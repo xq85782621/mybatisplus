@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.meizhi.mapper.DepartmentMapper">
+
+
+    <resultMap id="getSelf" type="com.meizhi.entity.response.DepartmentVo">
+        <id column="dept_id" property="deptId"/>
+        <result column="dept_name" property="deptName"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
+        <!--查到的id作为下次的pid-->
+        <collection property="children" select="departmentVOList" column="dept_id"/>
+    </resultMap>
+
+
+    <select id="departmentVOList" resultMap="getSelf">
+        select * from t_dept where parent_id=#{deptId}
+    </select>
+
+
+</mapper>

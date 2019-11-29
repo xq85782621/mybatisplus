@@ -7,19 +7,10 @@ import com.meizhi.common.code.CommonCode;
 import com.meizhi.common.code.ResultCode;
 import com.meizhi.common.exception.CustomException;
 import com.meizhi.common.response.ResponseResult;
-import org.apache.ibatis.binding.BindingException;
 import org.mybatis.spring.MyBatisSystemException;
-import org.springframework.boot.web.server.ConfigurableWebServerFactory;
-
-import org.springframework.boot.web.server.ErrorPage;
-import org.springframework.boot.web.server.WebServerFactoryCustomizer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpStatus;
-
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,17 +23,18 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
 
-
-
-    //定义map，配置异常类型所对应的错误代码
-    private static ImmutableMap<Class<? extends Throwable>, ResultCode> EXCEPTIONS;
     //定义map的builder对象，去构建ImmutableMap
     protected static ImmutableMap.Builder<Class<? extends Throwable>, ResultCode> builder = ImmutableMap.builder();
+    //定义map，配置异常类型所对应的错误代码
+    private static ImmutableMap<Class<? extends Throwable>, ResultCode> EXCEPTIONS;
 
-
+    //定义异常类型所对应的错误代码
+    static {
+        builder.put(MyBatisSystemException.class, CommonCode.SQL_ERROR);
+    }
 
     /**
-     *  中捕获参数校验异常
+     * 中捕获参数校验异常
      */
     @ExceptionHandler(BindException.class)
     @ResponseBody
@@ -56,12 +48,12 @@ public class GlobalExceptionHandler {
         for (ObjectError allError : allErrors) {
             String defaultMessage = allError.getDefaultMessage();
             String s = JSONUtil.toJsonStr(allError);
-            if(s.contains("Failed to convert property")){
+            if (s.contains("Failed to convert property")) {
                 defaultMessage = "参数类型不匹配";
             }
             errMsg.add(defaultMessage);
         }
-        ResponseResult result = new ResponseResult(CommonCode.PARAMS_VERIFY_FAIL,errMsg);
+        ResponseResult result = new ResponseResult(CommonCode.PARAMS_VERIFY_FAIL, errMsg);
         return result;
     }
 
@@ -73,7 +65,6 @@ public class GlobalExceptionHandler {
         ResultCode resultCode = customException.getResultCode();
         return new ResponseResult(resultCode);
     }
-
 
     //捕获Exception此类异常
     @ExceptionHandler(Exception.class)
@@ -94,12 +85,6 @@ public class GlobalExceptionHandler {
         }
 
 
-    }
-
-
-    //定义异常类型所对应的错误代码
-    static {
-        builder.put(MyBatisSystemException.class, CommonCode.SQL_ERROR);
     }
 
 }

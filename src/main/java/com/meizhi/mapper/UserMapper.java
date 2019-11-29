@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserMapper extends BaseMapper<User> {
 
-    IPage<UserVo>  selectUserList(Page page, @Param("params") UserQueryParams params);
+    IPage<UserVo>  userList(Page page, @Param("params") UserQueryParams params);
 
 
 }
