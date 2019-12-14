@@ -1,1 +1,0 @@
-1570584960919|1|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/jpa-test?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC|UPDATE user  SET name=?      WHERE id = ?|UPDATE user  SET name='修55554'      WHERE id = 1
