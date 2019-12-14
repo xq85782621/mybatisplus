@@ -30,9 +30,7 @@ public class demo {
             return roleVo;
         }).collect(Collectors.toList());
 
-
         System.err.println(JSONUtil.toJsonStr(roleVoList));
-
 
     }
 }
